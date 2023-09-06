@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database1", "Database1\Database1.sqlproj", "{AEAFB6E9-BEDB-4660-990F-36CDF2A88C87}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{633D3566-3A29-458A-AECD-661BAF90AF1B}"
+	ProjectSection(SolutionItems) = preProject
+		ApplicationDbContext.cs = ApplicationDbContext.cs
+		BoardGame.cs = BoardGame.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEAFB6E9-BEDB-4660-990F-36CDF2A88C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEAFB6E9-BEDB-4660-990F-36CDF2A88C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEAFB6E9-BEDB-4660-990F-36CDF2A88C87}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AEAFB6E9-BEDB-4660-990F-36CDF2A88C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEAFB6E9-BEDB-4660-990F-36CDF2A88C87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEAFB6E9-BEDB-4660-990F-36CDF2A88C87}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5079791-4A65-4827-9F61-D34C52FE8472}
+	EndGlobalSection
+EndGlobal
