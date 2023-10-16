@@ -1,0 +1,64 @@
+﻿@page "/employees/list/{currentPage:int?}"
+@inject IDbContextFactory<EmployeeManagerDBContext> ContextFactroy
+
+<PageTitle>Employees</PageTitle>
+
+<h1>Employees</h1>
+
+@if(Employees is null)
+{
+    <div>Loading...</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>First Name </th>
+                <th>Last Name </th>
+                <th> Is a Student </th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var employee in Employees)
+            {
+                <tr>
+                    <th>@employee.FirstName </th>
+                    <th>@employee.LastName </th>
+                    <th>@employee.IsStudent </th>
+                    <th>@employee.Department?.Name</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code{
+    [Parameter]
+    public int? CurrentPage { get; set; }
+
+    private Employee[]? Employees { get; set; }
+
+    private const int ItemsPerPage = 3;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(CurrentPage is null)
+        {
+            CurrentPage = 1;
+        }
+
+        using var context = ContextFactroy.CreateDbContext();
+
+        var itemsToSkip = (CurrentPage.Value - 1) * ItemsPerPage;
+
+        Employees = await context.Employees
+            .Include(emp => emp.Department)
+            .OrderBy(emp => emp.FirstName)
+            .Skip(itemsToSkip)
+            .Take(ItemsPerPage)
+            .ToArrayAsync();
+    }
+}
