@@ -1,5 +1,6 @@
 ﻿@page "/employees/list/{currentPage:int?}"
 @inject IDbContextFactory<EmployeeManagerDBContext> ContextFactroy
+@inject NavigationManager NavigationManager
 
 <PageTitle>Employees</PageTitle>
 
@@ -11,6 +12,25 @@
 }
 else
 {
+    <ul class="pagination mt-3">
+
+        <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="/employees/list/@(CurrentPage - 1)">Previous</a>
+        </li>
+
+        @for (int i = 1; i < TotalPages; i++)
+        {
+            <li class="page-item @(CurrentPage == i ? "active" : "")">
+                <a class="page-link" href="/employees/list/@i">@i</a>
+            </li>
+        }
+
+        <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
+            <a class="page-link" href="/employees/list/@(CurrentPage + 1)">Next</a>
+        </li>
+
+    </ul>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -32,6 +52,8 @@ else
             }
         </tbody>
     </table>
+
+    
 }
 
 @code{
@@ -40,17 +62,33 @@ else
 
     private Employee[]? Employees { get; set; }
 
+    private int TotalPages { get; set; }
+
     private const int ItemsPerPage = 3;
 
 
     protected override async Task OnParametersSetAsync()
     {
-        if(CurrentPage is null)
+        if(CurrentPage is null or < 1)
         {
-            CurrentPage = 1;
+            //CurrentPage = 1;
+
+            NavigationManager.NavigateTo("employees/list/1");
+            return;
         }
 
         using var context = ContextFactroy.CreateDbContext();
+
+        var employeeCount = await context.Employees.CountAsync();
+        TotalPages = employeeCount == 0 
+            ? 1
+            : (int)Math.Ceiling((double)employeeCount / ItemsPerPage);
+
+        if (CurrentPage > TotalPages)
+        {
+            NavigationManager.NavigateTo($"/employees/list/{TotalPages}");
+            return;
+        }
 
         var itemsToSkip = (CurrentPage.Value - 1) * ItemsPerPage;
 
